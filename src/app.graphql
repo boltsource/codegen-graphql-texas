@@ -1,0 +1,10 @@
+query GetCharacters {
+  characters {
+    info {
+      count
+    }
+    results {
+      name
+    }
+  }
+}

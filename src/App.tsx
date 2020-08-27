@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import styled from '@emotion/styled'
+import { useGetCharactersQuery } from 'generated/graphql'
 
-function App() {
+const Container = styled.div`
+  max-width: 1000px;
+`
+
+const App = () => {
+  const { loading, error, data } = useGetCharactersQuery()
+
+  if (loading || !data) return <p>Loading ...</p>
+
+  if (error) return <p>There was an error loading the characters.</p>
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Container>
+      <h1>Rick and Morty</h1>
+      <ul>
+        {data.characters?.results?.map((character) => {
+          return <li key={character?.name}>{character?.name}</li>
+        })}
+      </ul>
+    </Container>
+  )
 }
 
-export default App;
+export default App
